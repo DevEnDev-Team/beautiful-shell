@@ -132,6 +132,61 @@ omp-theme mon-theme
 omp-save mon-theme
 ```
 
+### 📁 **Ajouter vos propres alias de chemins**
+
+Beautiful Shell permet d'ajouter facilement vos propres raccourcis de navigation :
+
+```bash
+# Éditer votre .bashrc
+nano ~/.bashrc
+
+# Ajouter vos alias personnalisés dans la section Beautiful Shell
+# Exemples d'alias de chemins utiles :
+
+alias docs='cd ~/Documents'
+alias dl='cd ~/Downloads'  
+alias desk='cd ~/Desktop'
+alias pics='cd ~/Pictures'
+alias vids='cd ~/Videos'
+
+# Projets spécifiques
+alias myapp='cd ~/Documents/Projets/mon-application'
+alias scripts='cd ~/Documents/Scripts'
+alias config='cd ~/.config'
+alias logs='cd /var/log'
+
+# Serveurs ou environnements
+alias server='cd ~/Documents/Projets/serveur-web'
+alias frontend='cd ~/Documents/Projets/frontend-react'
+alias backend='cd ~/Documents/Projets/api-nodejs'
+
+# Raccourcis système
+alias tmp='cd /tmp'
+alias etc='cd /etc'
+alias var='cd /var'
+alias opt='cd /opt'
+
+# Après modification, recharger la configuration
+source ~/.bashrc
+```
+
+**Exemples d'utilisation :**
+```bash
+# Navigation rapide vers vos projets
+myapp                    # Va dans ~/Documents/Projets/mon-application
+frontend                 # Va dans ~/Documents/Projets/frontend-react
+docs                     # Va dans ~/Documents
+
+# Combinaison avec les commandes Git
+myapp && gs              # Va dans le projet et affiche le status Git
+```
+
+**💡 Tips pour les alias de chemins :**
+- Utilisez des noms courts et mémorables
+- Groupez par catégories (projets, système, etc.)
+- Ajoutez des alias pour vos dossiers les plus utilisés
+- Testez avec `which alias_name` pour éviter les conflits
+
 ### ⌨️ **Raccourcis Kitty**
 - `Ctrl+C` / `Ctrl+V` : Copier/Coller
 - `Ctrl+Shift+Enter` : Nouvelle fenêtre

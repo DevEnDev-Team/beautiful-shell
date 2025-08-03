@@ -1,4 +1,61 @@
-#!/bin/bash
+
+download_themes() {
+    print_step "Téléchargement des thèmes Oh My Posh..."
+    
+    # Créer le dossier themes
+    mkdir -p "$OMP_THEMES_DIR"
+    
+    # Télécharger les thèmes depuis le repo officiel
+    local themes_url="https://github.com/JanDeDobbeleer/oh-my-posh/archive/refs/heads/main.zip"
+    local temp_dir=$(mktemp -d)
+    
+    print_info "Téléchargement des thèmes officiels..."
+    if wget -q --show-progress "$themes_url" -O "$temp_dir/themes.zip"; then
+        unzip -q "$temp_dir/themes.zip" -d "$temp_dir"
+        
+        # Copier uniquement les fichiers de thèmes
+        if [ -d "$temp_dir/oh-my-posh-main/themes" ]; then
+            cp "$temp_dir/oh-my-posh-main/themes"/*.omp.json "$OMP_THEMES_DIR/" 2>/dev/null
+            
+            # Vérifier qu'au moins quelques thèmes ont été copiés
+            local theme_count=$(ls "$OMP_THEMES_DIR"/*.omp.json 2>/dev/null | wc -l)
+            if [ "$theme_count" -gt 0 ]; then
+                print_success "Thèmes téléchargés ($theme_count thèmes) dans $OMP_THEMES_DIR"
+            else
+                print_warning "Aucun thème trouvé, création d'un thème par défaut"
+                create_default_theme
+            fi
+        else
+            print_warning "Structure de thèmes non trouvée, création d'un thème par défaut"
+            create_default_theme
+        fi
+        
+        rm -rf "$temp_dir"
+    else
+        print_warning "Échec du téléchargement des thèmes, création d'un thème par défaut"
+        create_default_theme
+    fi
+}
+
+create_default_theme() {
+    # Créer un thème simple qui fonctionne toujours
+    cat > "$OMP_THEMES_DIR/default.omp.json" << 'EOF'
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "session",
+          "style": "diamond",
+          "leading_diamond": "",
+          "trailing_diamond": "",
+          "template": " {{ .UserName }}@{{ .HostName }} ",
+          "background": "#c#!/bin/bash
 
 # =============================================================================
 # BEAUTIFUL SHELL - Installation complète Terminal + Oh My Posh + Kitty
@@ -323,11 +380,10 @@ configure_kitty() {
     mkdir -p "$KITTY_CONFIG_DIR"
     
     cat > "$KITTY_CONFIG_DIR/kitty.conf" << 'EOF'
-# =============================================================================
-# KITTY TERMINAL CONFIGURATION - BEAUTIFUL SHELL
-# =============================================================================
+# THEME KITTY - Catppuccin Mocha (Configuration corrigée)
+# vim:ft=kitty
 
-# Police et taille
+# Police - Configuration corrigée pour éviter les erreurs
 font_family      JetBrainsMonoNerdFont-Regular
 bold_font        JetBrainsMonoNerdFont-Bold
 italic_font      JetBrainsMonoNerdFont-Italic
@@ -338,9 +394,11 @@ font_size        11.0
 background_opacity         0.95
 confirm_os_window_close    0
 
-# Thème Catppuccin Mocha
+# Couleurs Catppuccin Mocha
+# text
 foreground           #cdd6f4
 background           #1e1e2e
+# selection
 selection_foreground #1e1e2e
 selection_background #f5e0dc
 
@@ -467,6 +525,19 @@ QUOTES=(
 RANDOM_QUOTE=${QUOTES[$RANDOM % ${#QUOTES[@]}]}
 echo -e "  ${DIM}${GRAY}💭 ${RANDOM_QUOTE}${NC}"
 echo ""
+
+# Initialiser Oh My Posh si disponible
+if command -v oh-my-posh &> /dev/null; then
+    # Utiliser un thème simple et robuste
+    if [ -f "$HOME/.cache/oh-my-posh/themes/powerlevel10k_rainbow.omp.json" ]; then
+        eval "$(oh-my-posh init bash --config '$HOME/.cache/oh-my-posh/themes/powerlevel10k_rainbow.omp.json')"
+    elif [ -f "$HOME/.cache/oh-my-posh/themes/jandedobbeleer.omp.json" ]; then
+        eval "$(oh-my-posh init bash --config '$HOME/.cache/oh-my-posh/themes/jandedobbeleer.omp.json')"
+    else
+        # Utiliser le thème par défaut intégré (plus stable)
+        eval "$(oh-my-posh init bash)"
+    fi
+fi
 EOF
 
     chmod +x "$KITTY_CONFIG_DIR/startup.sh"
