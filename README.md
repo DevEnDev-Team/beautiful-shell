@@ -27,19 +27,6 @@ Beautiful Shell transforme votre terminal en un environnement de développement 
 - Remise du terminal par défaut
 - Conservation des sauvegardes
 
-## 🚀 Installation rapide
-
-```bash
-# Télécharger le script
-wget https://raw.githubusercontent.com/votre-repo/beautiful-shell/main/beautiful-shell
-# ou
-curl -O https://raw.githubusercontent.com/votre-repo/beautiful-shell/main/beautiful-shell
-
-# Rendre exécutable et installer
-chmod +x beautiful-shell
-./beautiful-shell
-```
-
 ## 📋 Distributions supportées
 
 ### ✅ **Support officiel**
