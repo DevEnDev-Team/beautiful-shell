@@ -7,7 +7,7 @@ Beautiful Shell transforme votre terminal en un environnement de développement 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)
-![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)
+![Platform](./beautiful_shell.png)
 
 ## ✨ Fonctionnalités
 
